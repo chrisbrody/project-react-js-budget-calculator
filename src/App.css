@@ -146,7 +146,6 @@ label {
   padding: 2px 5px;
 }
 .alert {
-  display: none;
   padding: 0.75rem 1.25rem;
   color: var(--mainWhite);
   text-align: center;
