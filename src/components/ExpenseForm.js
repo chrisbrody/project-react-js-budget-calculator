@@ -1,6 +1,7 @@
 import React from 'react';
 import {MdSend} from 'react-icons/md';
 
+// pass through charge, amount, handleCharge, handleAmount, handleSubmit & edit as parameters 
 const ExpenseForm = ({charge,amount,handleCharge,handleAmount,handleSubmit, edit}) => {
 
     return (

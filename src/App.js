@@ -3,8 +3,7 @@ import './App.css';
 import Alert from './components/Alert';
 import ExpenseForm from './components/ExpenseForm';
 import ExpenseList from './components/ExpenseList';
-import uuid from 'uuid/v4'
-import { MdRefresh } from 'react-icons/md';
+import uuid from 'uuid/v4';
 
 // create starting state
 // const InitialExpenses = [
@@ -13,7 +12,7 @@ import { MdRefresh } from 'react-icons/md';
 //   {id:uuid(), charge:"credit card bill", amount:1200},
 // ]
 
-// get local storage 
+// get local storage data for expenses or an empty string if expenses does not exist in local storage
 const InitialExpenses = localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
 
 function App() {
@@ -33,7 +32,7 @@ function App() {
 
   // **************** useEffect ****************
   useEffect(() => {
-    console.log('we called useEffect');
+    // set items in local storage anytime the expenses useState is changed
     localStorage.setItem('expenses', JSON.stringify(expenses))
     
   },[expenses])
@@ -41,17 +40,21 @@ function App() {
   // **************** functionality ****************
   // handle charge text
   const handleCharge = e => {
-    // update charge name on change - ExpenseForm.js
+    // update the charge - ExpenseForm.js
     setCharge(e.target.value);
   }
   // handle amount number
   const handleAmount = e => {
+    // update the amount - ExpenseForm.js
     setAmount(e.target.value);
   }
   // handle alert
   const handleAlert = ({type, text}) => {
-    setAlert({show:true, type, text})
+    // set alert show property to true and change the text property to the text passed through in whatever alert you need to call
+    setAlert({show:true, type, text});
+    // set timeout to 3s
     setTimeout(() => {
+      // set alert show property to false 
       setAlert({show:false})
     }, 3000)
   }
@@ -62,21 +65,32 @@ function App() {
 
     // if both fields are not empty 
     if(charge !== "" && amount > 0) {
+      // if edit it true 
       if(edit) {
+        // store tempExpenses from the current expenses
         let tempExpenses = expenses.map(item => {
-          return item.id === id ?{...item,charge,amount} :item
+          // return any item where item.id === id then add to the existing array of item or just get the item
+          return item.id === id ? {...item,charge,amount} : item
         })
         // update all expenses 
         setExpenses(tempExpenses);
         // change edit state back to false so user can submit again
         setEdit(false);
-
-      } else {
-        // create a single expense
-        const singleExpense = {id:uuid(), charge, amount}
-        // add to already exisiting list of expenses
-        setExpenses([...expenses, singleExpense])
+        // alert item was edited
         handleAlert({type:'success', text:'item edited'})
+      } else {
+        // create a single expense to add to the list of expenses
+        const singleExpense = {
+          id:uuid(), 
+          charge, 
+          amount
+        }
+
+        // add to already exisiting list of expenses
+        setExpenses([...expenses, singleExpense]);
+
+        // alert item was added
+        handleAlert({type:'success', text:'item added'});
       }
       
       // clear input fields
@@ -84,8 +98,10 @@ function App() {
       setAmount('')
       
     } else if(charge === "") {
+      // alert Charge is empty, please try again
       handleAlert({type:'danger', text:'Charge is empty, please try again'})
     } else if (amount <= 0) {
+      // alert Amount should be greater than zero, please try again
       handleAlert({type:'danger', text:'Amount should be greater than zero, please try again'})
     }
   }
@@ -99,11 +115,17 @@ function App() {
  
   // handle edit 
   const handleEdit = (id) => {
+    // store expense from the item that matches the id passed in as the parameter
     let expense = expenses.find(item => item.id === id) ;
+    // store chare and amount from expense 
     let {charge, amount} = expense
+    // update charge to the text in charge
     setCharge(charge)
+    // update the amount to the number in amount
     setAmount(amount)
+    // update edit state to true 
     setEdit(true)
+    // update the id state to the parameter passed through
     setId(id)
   }
   // handle delete 
@@ -124,6 +146,9 @@ function App() {
       <Alert />
       <h1>budget calculator</h1>
       <main className="App">
+        {/* 
+          pass through: charge, amount, handleAmount, handleChange, handleSubmit & edit
+        */}
         <ExpenseForm 
           charge={charge} 
           amount={amount} 
@@ -132,10 +157,13 @@ function App() {
           handleSubmit={handleSubmit}
           edit={edit}
         />
+        {/* 
+          pass through: expenses, clearItems, handleEdit & handleDelete
+        */}
         <ExpenseList expenses={expenses} clearItems={clearItems} handleEdit={handleEdit} handleDelete={handleDelete}/>
       </main> 
       <h1>
-        total spending : <span className="total">
+        total spending : <span>
           ${expenses.reduce( (accumulator, current) => {
             return accumulator += parseInt(current.amount)
           },0 )}
