@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0dfd50ddd645e290d2e83669fc00943a",
+    "revision": "2b318c1fbcbca77a18fb8a1be7f26c1e",
     "url": "/project-react-js-budget-calculator/index.html"
   },
   {
-    "revision": "295990d828c0c13792bd",
-    "url": "/project-react-js-budget-calculator/static/css/main.faecc77c.chunk.css"
+    "revision": "4b712ed4b7282fefb9ba",
+    "url": "/project-react-js-budget-calculator/static/css/main.8b0a52b7.chunk.css"
   },
   {
     "revision": "b02f2aaf579f20ee5cb9",
@@ -16,7 +16,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/project-react-js-budget-calculator/static/js/2.9f3254f7.chunk.js.LICENSE"
   },
   {
-    "revision": "295990d828c0c13792bd",
+    "revision": "4b712ed4b7282fefb9ba",
     "url": "/project-react-js-budget-calculator/static/js/main.689a93c6.chunk.js"
   },
   {
